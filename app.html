@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArtisanApp — Demo</title>
+<style>
+  :root {
+    --green: #1a3c34;
+    --gold: #e8a33d;
+    --cream: #f7f5f0;
+    --red: #c0392b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: #222; }
+  header { background: var(--green); color: #fff; padding: 20px; text-align: center; }
+  header h1 { font-size: 1.4em; }
+  header p { color: #d4e8e0; font-size: 0.85em; margin-top: 4px; }
+
+  .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+
+  .demo-note {
+    background: #fff8ea; border: 1px solid #f0dca0; color: #7a5c1e;
+    font-size: 0.8em; padding: 10px 14px; border-radius: 8px; margin-bottom: 18px;
+  }
+
+  .card {
+    background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .login-card input {
+    width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
+    margin-bottom: 12px; font-size: 1em;
+  }
+  .login-card button, .primary-btn {
+    width: 100%; padding: 12px; background: var(--green); color: #fff; border: none;
+    border-radius: 8px; font-weight: 700; font-size: 1em; cursor: pointer;
+  }
+
+  .hidden { display: none; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: sticky; bottom: 0; display: flex; background: #fff;
+    border-top: 1px solid #ddd; margin-top: 10px;
+  }
+  .nav-btn {
+    flex: 1; text-align: center; padding: 14px 0; cursor: pointer;
+    color: #999; font-size: 0.85em; font-weight: 700;
+  }
+  .nav-btn.active { color: var(--green); border-top: 3px solid var(--gold); }
+
+  /* Dashboard */
+  .balance-card { text-align: center; background: var(--green); color: #fff; }
+  .balance-card .amount { font-size: 2.2em; font-weight: 700; color: var(--gold); }
+  .balance-card .label { font-size: 0.85em; color: #d4e8e0; margin-top: 4px; }
+
+  .savings-card .bar-bg { background: #eee; border-radius: 10px; height: 14px; overflow: hidden; margin: 10px 0; }
+  .savings-card .bar-fill { background: var(--gold); height: 100%; width: 0%; transition: width 0.3s; }
+  .savings-card .row { display: flex; justify-content: space-between; font-size: 0.9em; color: #555; }
+  .savings-card input {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;
+    margin-top: 10px; font-size: 0.95em;
+  }
+  .savings-card .set-btn {
+    margin-top: 10px; width: 100%; padding: 10px; background: var(--gold); color: var(--green);
+    border: none; border-radius: 8px; font-weight: 700; cursor: pointer;
+  }
+
+  .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .form-row select, .form-row input {
+    flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.95em;
+  }
+  .add-card input[type="text"] {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;
+    margin-bottom: 10px; font-size: 0.95em;
+  }
+
+  .tx-list h3 { color: var(--green); margin-bottom: 10px; font-size: 1em; }
+  .tx-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9em; }
+  .tx-item:last-child { border-bottom: none; }
+  .tx-item .meta { color: #999; font-size: 0.8em; display: block; }
+  .tx-item .amt.in { color: #1a8a4c; font-weight: 700; }
+  .tx-item .amt.out { color: var(--red); font-weight: 700; }
+  .empty-note { color: #999; font-size: 0.9em; text-align: center; padding: 10px 0; }
+
+  /* Marketplace */
+  .tabs { display: flex; margin-bottom: 18px; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; }
+  .tab { flex: 1; text-align: center; padding: 12px; background: #fff; cursor: pointer; font-weight: 700; color: #666; font-size: 0.9em; }
+  .tab.active { background: var(--green); color: #fff; }
+
+  .product-card { display: flex; gap: 12px; align-items: center; }
+  .product-thumb {
+    width: 60px; height: 60px; border-radius: 10px; flex-shrink: 0;
+    background: var(--green); color: var(--gold); display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 1.3em;
+  }
+  .product-info { flex: 1; }
+  .product-info h4 { color: var(--green); font-size: 0.95em; margin-bottom: 2px; }
+  .product-info .seller { color: #999; font-size: 0.75em; }
+  .product-info .price { color: var(--gold); font-weight: 700; margin-top: 4px; }
+  .buy-btn {
+    padding: 8px 16px; background: var(--green); color: #fff; border: none;
+    border-radius: 6px; font-size: 0.8em; font-weight: 700; cursor: pointer;
+  }
+
+  .sell-card input, .sell-card textarea {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;
+    margin-bottom: 10px; font-size: 0.95em; font-family: inherit;
+  }
+  .sell-card button {
+    width: 100%; padding: 12px; background: var(--gold); color: var(--green);
+    border: none; border-radius: 8px; font-weight: 700; font-size: 1em; cursor: pointer;
+  }
+
+  .logout-link {
+    display: block; text-align: center; color: #888; font-size: 0.85em;
+    margin-top: 20px; text-decoration: underline; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ArtisanApp</h1>
+  <p>Prototype demo — for testing only</p>
+</header>
+
+<div class="container">
+
+  <div class="demo-note">
+    This is an early demo. Your data is saved only on this device/browser — not shared, not backed up, and not connected to real money or bank accounts yet.
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginCard" class="card login-card">
+    <h3 style="color: var(--green); margin-bottom: 12px;">Welcome</h3>
+    <input type="text" id="nameInput" placeholder="Enter your name to start">
+    <button onclick="login()">Enter ArtisanApp</button>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" class="hidden">
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage">
+      <div class="card balance-card">
+        <div class="amount" id="balanceDisplay">₦0</div>
+        <div class="label">Current Balance</div>
+      </div>
+
+      <div class="card savings-card">
+        <h3 style="color: var(--green); margin-bottom: 6px;">Savings Goal</h3>
+        <div class="row">
+          <span id="savedAmountLabel">Saved: ₦0</span>
+          <span id="goalAmountLabel">Goal: ₦0</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill" id="savingsBar"></div></div>
+        <input type="number" id="goalInput" placeholder="Set a savings goal (e.g. 50000)">
+        <button class="set-btn" onclick="setGoal()">Set Goal</button>
+      </div>
+
+      <div class="card add-card">
+        <h3 style="color: var(--green); margin-bottom: 10px;">Add Transaction</h3>
+        <div class="form-row">
+          <select id="txType">
+            <option value="in">Money In</option>
+            <option value="out">Money Out</option>
+          </select>
+          <input type="number" id="txAmount" placeholder="Amount">
+        </div>
+        <input type="text" id="txDesc" placeholder="Description (e.g. Fabric sale)">
+        <button class="primary-btn" onclick="addTransaction()">Add</button>
+      </div>
+
+      <div class="card tx-list">
+        <h3>Transaction History</h3>
+        <div id="txListItems"></div>
+      </div>
+    </div>
+
+    <!-- MARKETPLACE PAGE -->
+    <div id="marketplacePage" class="hidden">
+      <div class="tabs">
+        <div class="tab active" id="browseTab" onclick="showMarketTab('browse')">Browse</div>
+        <div class="tab" id="sellTab" onclick="showMarketTab('sell')">Sell a Product</div>
+      </div>
+
+      <div id="browseSection">
+        <div id="productList"></div>
+      </div>
+
+      <div id="sellSection" class="hidden">
+        <div class="card sell-card">
+          <h3 style="color: var(--green); margin-bottom: 10px;">List Your Product</h3>
+          <input type="text" id="productName" placeholder="Product name (e.g. Woven Basket)">
+          <input type="number" id="productPrice" placeholder="Price (₦)">
+          <textarea id="productDesc" placeholder="Short description" rows="3"></textarea>
+          <button onclick="addProduct()">List Product</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-btn active" id="navDashboard" onclick="showPage('dashboard')">Dashboard</div>
+      <div class="nav-btn" id="navMarket" onclick="showPage('marketplace')">Marketplace</div>
+    </div>
+
+    <a class="logout-link" onclick="logout()">Switch User / Log Out</a>
+  </div>
+
+</div>
+
+<script>
+  let currentUser = null;
+
+  const defaultProducts = [
+    { seller: "Amaka", name: "Handwoven Basket", price: 8500, desc: "Handmade raffia storage basket." },
+    { seller: "Kwame", name: "Leather Sandals", price: 12000, desc: "Custom-fit leather sandals." },
+    { seller: "Zainab", name: "Beaded Necklace", price: 5000, desc: "Traditional beadwork necklace." }
+  ];
+
+  function storageKey(base) { return currentUser + '_' + base; }
+
+  function login() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (!name) { alert('Please enter your name.'); return; }
+    currentUser = name.toLowerCase().replace(/\s+/g, '_');
+    document.getElementById('loginCard').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    renderAll();
+    renderProducts();
+  }
+
+  function logout() {
+    currentUser = null;
+    document.getElementById('app').classList.add('hidden');
+    document.getElementById('loginCard').classList.remove('hidden');
+    document.getElementById('nameInput').value = '';
+  }
+
+  function showPage(page) {
+    document.getElementById('dashboardPage').classList.toggle('hidden', page !== 'dashboard');
+    document.getElementById('marketplacePage').classList.toggle('hidden', page !== 'marketplace');
+    document.getElementById('navDashboard').classList.toggle('active', page === 'dashboard');
+    document.getElementById('navMarket').classList.toggle('active', page === 'marketplace');
+    if (page === 'dashboard') renderAll();
+    if (page === 'marketplace') renderProducts();
+  }
+
+  /* Dashboard logic */
+  function getTransactions() {
+    const data = localStorage.getItem(storageKey('transactions'));
+    return data ? JSON.parse(data) : [];
+  }
+  function saveTransactions(txs) { localStorage.setItem(storageKey('transactions'), JSON.stringify(txs)); }
+  function getGoal() { const g = localStorage.getItem(storageKey('goal')); return g ? parseFloat(g) : 0; }
+  function saveGoal(amount) { localStorage.setItem(storageKey('goal'), amount); }
+  function formatMoney(num) { return '₦' + Number(num).toLocaleString(); }
+
+  function addTransaction(type, amount, desc) {
+    type = type || document.getElementById('txType').value;
+    amount = amount || parseFloat(document.getElementById('txAmount').value);
+    desc = desc || document.getElementById('txDesc').value.trim();
+
+    if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
+    if (!desc) { alert('Please enter a short description.'); return; }
+
+    const txs = getTransactions();
+    txs.unshift({ type, amount, desc, date: new Date().toLocaleDateString() });
+    saveTransactions(txs);
+
+    document.getElementById('txAmount').value = '';
+    document.getElementById('txDesc').value = '';
+    renderAll();
+  }
+
+  function setGoal() {
+    const goal = parseFloat(document.getElementById('goalInput').value);
+    if (!goal || goal <= 0) { alert('Please enter a valid goal amount.'); return; }
+    saveGoal(goal);
+    document.getElementById('goalInput').value = '';
+    renderAll();
+  }
+
+  function calculateBalance(txs) {
+    let balance = 0;
+    txs.forEach(tx => { balance += tx.type === 'in' ? tx.amount : -tx.amount; });
+    return balance;
+  }
+
+  function renderAll() {
+    const txs = getTransactions();
+    const balance = calculateBalance(txs);
+    document.getElementById('balanceDisplay').textContent = formatMoney(balance);
+
+    const goal = getGoal();
+    const saved = balance > 0 ? balance : 0;
+    const pct = goal > 0 ? Math.min(100, (saved / goal) * 100) : 0;
+    document.getElementById('savedAmountLabel').textContent = 'Saved: ' + formatMoney(saved);
+    document.getElementById('goalAmountLabel').textContent = 'Goal: ' + formatMoney(goal);
+    document.getElementById('savingsBar').style.width = pct + '%';
+
+    const listEl = document.getElementById('txListItems');
+    if (txs.length === 0) {
+      listEl.innerHTML = '<div class="empty-note">No transactions yet. Add your first one above.</div>';
+    } else {
+      listEl.innerHTML = txs.map(tx => `
+        <div class="tx-item">
+          <div><div>${tx.desc}</div><span class="meta">${tx.date}</span></div>
+          <div class="amt ${tx.type === 'in' ? 'in' : 'out'}">${tx.type === 'in' ? '+' : '-'} ${formatMoney(tx.amount)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  /* Marketplace logic */
+  function getProducts() {
+    const stored = localStorage.getItem('marketplace_products');
+    if (stored) return JSON.parse(stored);
+    localStorage.setItem('marketplace_products', JSON.stringify(defaultProducts));
+    return defaultProducts;
+  }
+  function saveProducts(products) { localStorage.setItem('marketplace_products', JSON.stringify(products)); }
+
+  function showMarketTab(tab) {
+    document.getElementById('browseSection').classList.toggle('hidden', tab !== 'browse');
+    document.getElementById('sellSection').classList.toggle('hidden', tab !== 'sell');
+    document.getElementById('browseTab').classList.toggle('active', tab === 'browse');
+    document.getElementById('sellTab').classList.toggle('active', tab === 'sell');
+    if (tab === 'browse') renderProducts();
+  }
+
+  function renderProducts() {
+    const products = getProducts();
+    const listEl = document.getElementById('productList');
+    if (!listEl) return;
+    if (products.length === 0) {
+      listEl.innerHTML = '<div class="empty-note">No products listed yet.</div>';
+      return;
+    }
+    listEl.innerHTML = products.map((p, i) => `
+      <div class="card product-card">
+        <div class="product-thumb">${p.name.charAt(0)}</div>
+        <div class="product-info">
+          <h4>${p.name}</h4>
+          <div class="seller">by ${p.seller}</div>
+          <div class="price">${formatMoney(p.price)}</div>
+        </div>
+        <button class="buy-btn" onclick="buyProduct(${i})">Buy</button>
+      </div>
+    `).join('');
+  }
+
+  function buyProduct(index) {
+    const products = getProducts();
+    const p = products[index];
+    addTransaction('out', p.price, 'Bought: ' + p.name);
+    alert('Purchase added to your dashboard as a transaction!\n\n' + p.name + ' from ' + p.seller + ' — ' + formatMoney(p.price));
+  }
+
+  function addProduct() {
+    const name = document.getElementById('productName').value.trim();
+    const price = parseFloat(document.getElementById('productPrice').value);
+    const desc = document.getElementById('productDesc').value.trim();
+
+    if (!name || !price || price <= 0) { alert('Please enter a product name and a valid price.'); return; }
+
+    const products = getProducts();
+    products.unshift({ seller: currentUser, name, price, desc });
+    saveProducts(products);
+
+    document.getElementById('productName').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('productDesc').value = '';
+
+    showMarketTab('browse');
+  }
+</script>
+
+</body>
+          </html>
+
