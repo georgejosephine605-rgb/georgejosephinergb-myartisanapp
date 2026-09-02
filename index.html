@@ -165,6 +165,8 @@
 <body>
 
 <header class="hero">
+  <img src="logo.png" alt="ArtisanApp logo" style="width:70px; height:70px; display:block; margin: 0 auto 16px; object-fit:contain;">
+
   <span class="tag">Built for African Artisans</span>
   <h1>Know Your Money. Grow Your Craft.</h1>
   <p class="sub">ArtisanApp helps informal artisans and small business owners across Africa track income, save consistently, access credit, and get paid from anywhere — all from one simple app.</p>
@@ -261,9 +263,10 @@
 <section id="waitlist" class="contact-section">
   <h2>Be Among the First</h2>
   <p>Join the waitlist and we'll reach out as soon as ArtisanApp launches in your region.</p>
-  <form class="waitlist" onsubmit="event.preventDefault(); alert('Thanks for joining the waitlist!');">
-    <input type="text" placeholder="Your name" required>
-    <input type="email" placeholder="Your email" required>
+  <form class="waitlist" action="https://formspree.io/f/mgaeyydw" method="POST">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <input type="hidden" name="_next" value="https://georgejosephine605-rgb.github.io/georgejosephinerb-myartisanapp/thanks.html">
     <button type="submit">Join the Waitlist</button>
   </form>
 </section>
@@ -273,5 +276,4 @@
 </footer>
 
 </body>
-  </html>
-  
+</html>
