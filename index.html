@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArtisanApp — Fintech for African Artisans</title>
+<style>
+  :root {
+    --green: #1a3c34;
+    --green-light: #245c4f;
+    --gold: #e8a33d;
+    --cream: #f7f5f0;
+    --text: #2b2b2b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); line-height: 1.6; background: #fff; }
+  a { color: inherit; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, var(--green), var(--green-light));
+    color: #fff;
+    padding: 70px 20px 90px;
+    text-align: center;
+  }
+  header.hero .tag {
+    display: inline-block;
+    background: rgba(232,163,61,0.15);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+  header.hero h1 { font-size: 2.4em; margin-bottom: 16px; }
+  header.hero p.sub { font-size: 1.15em; color: #d4e8e0; max-width: 620px; margin: 0 auto 30px; }
+  .cta-btn {
+    display: inline-block;
+    padding: 14px 34px;
+    background: var(--gold);
+    color: var(--green);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+  .cta-secondary {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 14px 30px;
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  /* Problem section */
+  section { padding: 60px 20px; max-width: 960px; margin: 0 auto; }
+  .section-title { text-align: center; color: var(--green); font-size: 1.8em; margin-bottom: 12px; }
+  .section-sub { text-align: center; color: #666; max-width: 600px; margin: 0 auto 40px; }
+
+  .problem-grid { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; }
+  .problem-card {
+    background: var(--cream);
+    border-left: 4px solid var(--gold);
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1 1 260px;
+  }
+  .problem-card h4 { color: var(--green); margin-bottom: 6px; font-size: 1.05em; }
+  .problem-card p { color: #555; font-size: 0.95em; }
+
+  /* Features */
+  .features-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
+  .feature {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 28px 22px;
+    border-radius: 12px;
+    flex: 1 1 260px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .feature .icon {
+    width: 54px; height: 54px;
+    background: var(--green);
+    color: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4em; font-weight: bold;
+    margin: 0 auto 16px;
+  }
+  .feature h3 { color: var(--green); margin-bottom: 8px; font-size: 1.1em; }
+  .feature p { color: #555; font-size: 0.93em; }
+
+  /* Dashboard mock */
+  .dashboard-section { background: var(--cream); }
+  .dashboard-mock {
+    max-width: 340px;
+    margin: 30px auto 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  .dashboard-mock .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9em; }
+  .dashboard-mock .row:last-child { border-bottom: none; }
+  .dashboard-mock .in { color: #1a8a4c; font-weight: 600; }
+  .dashboard-mock .out { color: #c0392b; font-weight: 600; }
+  .dashboard-mock .balance { text-align: center; padding: 16px 0; font-size: 1.6em; font-weight: 700; color: var(--green); }
+  .dashboard-mock .balance small { display: block; font-size: 0.4em; color: #888; font-weight: 500; }
+
+  /* Trust strip */
+  .trust-strip { background: var(--green); color: #fff; text-align: center; padding: 40px 20px; }
+  .trust-strip .items { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 20px; }
+  .trust-strip .item { font-size: 0.95em; color: #d4e8e0; }
+  .trust-strip .item strong { display: block; color: var(--gold); font-size: 1.3em; }
+
+  /* Contact / CTA */
+  .contact-section { text-align: center; background: var(--cream); }
+  .contact-section h2 { color: var(--green); }
+  .contact-section p { color: #555; margin-bottom: 25px; }
+  form.waitlist {
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  form.waitlist input {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+  form.waitlist button {
+    padding: 14px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  footer {
+    background: #12241f;
+    color: #a9c4bc;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.85em;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    header.hero h1 { font-size: 1.8em; }
+    .cta-secondary { display: block; margin: 14px auto 0; width: fit-content; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="tag">Built for African Artisans</span>
+  <h1>Know Your Money. Grow Your Craft.</h1>
+  <p class="sub">ArtisanApp helps informal artisans and small business owners across Africa track income, save consistently, access credit, and get paid from anywhere — all from one simple app.</p>
+  <a href="#waitlist" class="cta-btn">Join the Waitlist</a>
+  <a href="#features" class="cta-secondary">See How It Works</a>
+</header>
+
+<section id="problem">
+  <h2 class="section-title">The Everyday Struggle</h2>
+  <p class="section-sub">Most artisans run their business from memory — and that costs them money, growth, and peace of mind.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <h4>No Way to Track Money</h4>
+      <p>Cash comes in and goes out with no record — making it impossible to know if the business is actually profitable.</p>
+    </div>
+    <div class="problem-card">
+      <h4>Nothing Saved for Tomorrow</h4>
+      <p>Without a system, income gets spent before it can be set aside for slow seasons or emergencies.</p>
+    </div>
+    <div class="problem-card">
+      <h4>Locked Out of Credit</h4>
+      <p>No transaction history means no proof of income — so banks and lenders say no, even to reliable business owners.</p>
+    </div>
+    <div class="problem-card">
+      <h4>Currency &amp; Payment Barriers</h4>
+      <p>Customers from other regions or countries can't pay easily, and accessible payment platforms are scarce.</p>
+    </div>
+    <div class="problem-card">
+      <h4>Logistics Gaps</h4>
+      <p>Getting goods to customers outside your immediate area is slow, unreliable, or simply not possible.</p>
+    </div>
+    <div class="problem-card">
+      <h4>Limited Financial Know-How</h4>
+      <p>Saving, investing, and borrowing responsibly aren't taught — so good money habits are hard to build alone.</p>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="dashboard-section">
+  <h2 class="section-title">One App. Every Tool You Need.</h2>
+  <p class="section-sub">ArtisanApp turns financial chaos into a clear, simple dashboard — and builds real financial confidence along the way.</p>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="icon">₦</div>
+      <h3>Track Every Transaction</h3>
+      <p>Automatically record money in and out, so you always know exactly where your business stands.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">＄</div>
+      <h3>Save Automatically</h3>
+      <p>Set aside a portion of every sale into a safe savings pocket — without having to think about it.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">✓</div>
+      <h3>Build Credit Access</h3>
+      <p>Your tracked history becomes your track record — unlocking small, manageable loans as you grow.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">⇄</div>
+      <h3>Get Paid in Any Currency</h3>
+      <p>Accept payments from customers across regions and countries, converted instantly and fairly.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🚚</div>
+      <h3>Reliable Logistics</h3>
+      <p>Partnered delivery services help you reach customers beyond your city, safely and on time.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🎓</div>
+      <h3>Learn As You Earn</h3>
+      <p>Bite-sized financial literacy tips built right into the app — saving, investing, and debt made simple.</p>
+    </div>
+  </div>
+
+  <div class="dashboard-mock">
+    <div class="balance">₦248,500<small>Current Business Balance</small></div>
+    <div class="row"><span>Fabric Sale — Customer A</span><span class="in">+ ₦35,000</span></div>
+    <div class="row"><span>Supplies Purchase</span><span class="out">− ₦12,000</span></div>
+    <div class="row"><span>Custom Order — Customer B</span><span class="in">+ ₦58,000</span></div>
+    <div class="row"><span>Savings Set-Aside</span><span class="out">− ₦10,000</span></div>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <h2 class="section-title" style="color:#fff;">Built on Trust</h2>
+  <p style="color:#d4e8e0; max-width:600px; margin:0 auto;">Every transaction is protected, every record is private, and every artisan is treated like a real business owner — because they are one.</p>
+  <div class="items">
+    <div class="item"><strong>Secure</strong>Encrypted Transactions</div>
+    <div class="item"><strong>Fast</strong>Instant Payments</div>
+    <div class="item"><strong>Simple</strong>No Bank Account Needed</div>
+  </div>
+</div>
+
+<section id="waitlist" class="contact-section">
+  <h2>Be Among the First</h2>
+  <p>Join the waitlist and we'll reach out as soon as ArtisanApp launches in your region.</p>
+  <form class="waitlist" onsubmit="event.preventDefault(); alert('Thanks for joining the waitlist!');">
+    <input type="text" placeholder="Your name" required>
+    <input type="email" placeholder="Your email" required>
+    <button type="submit">Join the Waitlist</button>
+  </form>
+</section>
+
+<footer>
+  &copy; 2026 ArtisanApp. Built for artisans, by design. &nbsp;|&nbsp; <a href="mailto:hello@myartisanapp.com">hello@myartisanapp.com</a>
+</footer>
+
+</body>
+  </html>
+  
